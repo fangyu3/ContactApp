@@ -1,33 +1,25 @@
 package contacts;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Contact {
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
+public abstract class Contact {
 
-    public Contact(String firstName, String lastName, String phoneNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public static List<Contact> entries = new ArrayList<>();;
+    protected String phoneNumber;
+    protected LocalDateTime dateCreated;
+    protected LocalDateTime dateLastModified;
+
+    public static enum Field {
+        NUMBER,BIRTH,GENDER,ADDRESS,NAME,SURNAME
+    }
+
+    public Contact(String phoneNumber) {
         setPhoneNumber(phoneNumber);
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+        dateCreated = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        dateLastModified = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
     }
 
     public String getPhoneNumber() {
@@ -35,24 +27,30 @@ public class Contact {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if (validatePhoneNumber(phoneNumber)) {
-            this.phoneNumber = phoneNumber;
-            return;
+        this.phoneNumber = phoneNumber;
+    }
+
+
+    public void add() {
+        entries.add(this);
+    }
+
+    public void update(String field, String newValue) {
+        dateLastModified = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+    };
+
+    public abstract void getInfo();
+
+    public static void remove(int idx) {
+        entries.remove(idx);
+    }
+
+    public static void listEntries() {
+        int rowNum = 1;
+        for (Contact entry:entries) {
+            System.out.println(rowNum + ". " + entry);
+            rowNum++;
         }
-        System.out.println("Wrong number format!");
-        this.phoneNumber = "[no number]";
-        return;
-    }
+    };
 
-    public boolean validatePhoneNumber(String phoneNumber) {
-        String phoneRegex = "(\\+?(\\(\\w{1,}\\)|\\w{1,})([\\s-]\\w{2,})*|\\+?\\w{1,}[\\s-]\\(\\w{2,}\\)([\\s-]\\w{2,})*)";
-        Pattern pattern = Pattern.compile(phoneRegex);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        return matcher.matches();
-    }
-
-    @Override
-    public String toString() {
-        return  firstName + " " + lastName + ", " + phoneNumber;
-    }
 }
