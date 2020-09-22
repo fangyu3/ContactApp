@@ -1,5 +1,7 @@
 package contacts;
 
+import contacts.contact.Contact;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

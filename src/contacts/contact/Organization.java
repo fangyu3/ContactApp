@@ -1,13 +1,15 @@
-package contacts;
+package contacts.contact;
 
-public class Organization extends Contact{
+public class Organization extends Contact {
     private String name;
     private String address;
+    private static final long serialVersionUID = 1L;
 
     public Organization(String name, String address, String phoneNumber) {
         super(phoneNumber);
         this.name = name;
         this.address = address;
+        this.searchId = name + " " + address + " " + phoneNumber;
     }
 
     public String getName() {

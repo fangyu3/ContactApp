@@ -1,11 +1,14 @@
-package contacts;
+package contacts.contact;
 
-public class Person extends Contact{
+public class Person extends Contact {
 
     private String firstName;
     private String lastName;
     private String birthday;
     private String gender;
+    private static final long serialVersionUID = 1L;
+
+
 
     public Person (String firstName,String lastName,String birthday,String gender,String phoneNumber) {
         super(phoneNumber);
@@ -13,6 +16,7 @@ public class Person extends Contact{
         this.lastName = lastName;
         setBirthday(birthday);
         setGender(gender);
+        this.searchId = firstName + " " + lastName + " " + birthday + " " + gender + " " + phoneNumber;
     }
 
     public String getFirstName() {
